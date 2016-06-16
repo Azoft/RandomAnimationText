@@ -1,4 +1,4 @@
-package com.randomhelper;
+package com.random.anim;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;

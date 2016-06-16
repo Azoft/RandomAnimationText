@@ -1,4 +1,4 @@
-package com.randomhelper;
+package com.random.anim;
 
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -142,7 +143,7 @@ public class RandomTextHelper {
     }
 
     public int getWidthMeasureDrawText() {
-        return mTextView.getPaddingLeft() + (int) mPaint.measureText(mDrawText) + 10 + mTextView.getTotalPaddingRight();
+        return mTextView.getPaddingLeft() + (int) mPaint.measureText(mDrawText == null ? "" : mDrawText) + 10 + mTextView.getTotalPaddingRight();
     }
 
     public int getHeightMeasureDrawText() {
@@ -159,7 +160,9 @@ public class RandomTextHelper {
     }
 
     public void onDraw(@NonNull final Canvas canvas) {
-        canvas.drawText(mDrawText, getDrawX(), getDrawY(), mPaint);
+        if (!TextUtils.isEmpty(mDrawText)) {
+            canvas.drawText(mDrawText, getDrawX(), getDrawY(), mPaint);
+        }
     }
 
     private final Runnable mCharacterChange = new Runnable() {

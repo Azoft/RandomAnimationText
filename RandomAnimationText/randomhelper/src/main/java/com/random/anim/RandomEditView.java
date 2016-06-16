@@ -1,4 +1,4 @@
-package com.sample;
+package com.random.anim;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,9 +7,8 @@ import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.widget.TextView;
-
-import com.randomhelper.RandomTextHelper;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * Date: 22.12.14
@@ -17,15 +16,15 @@ import com.randomhelper.RandomTextHelper;
  *
  * @author Artem Zalevskiy
  */
-public class TextRandomView extends TextView {
+public class RandomEditView extends EditText {
 
     private final RandomTextHelper mRandomTextHelper = new RandomTextHelper();
 
-    public TextRandomView(final Context context) {
+    public RandomEditView(final Context context) {
         this(context, null);
     }
 
-    public TextRandomView(final Context context, final AttributeSet attrs) {
+    public RandomEditView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.randomText);
@@ -56,12 +55,20 @@ public class TextRandomView extends TextView {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
+
+        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (layoutParams.width == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
+        }
     }
 
     @Override
     protected void onDraw(@NonNull final Canvas canvas) {
-        mRandomTextHelper.onDraw(canvas);
+        if (mRandomTextHelper.isFinish()) {
+            super.onDraw(canvas);
+        } else {
+            mRandomTextHelper.onDraw(canvas);
+        }
     }
 
     @Override

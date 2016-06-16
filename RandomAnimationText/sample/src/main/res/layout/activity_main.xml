@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <com.sample.TextRandomView
+    <com.random.anim.RandomTextView
         android:id="@+id/tv_anim_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,15 +18,18 @@
         randomText:rules="@string/rules"
         randomText:template="@string/template" />
 
-    <com.sample.TextRandomView
+    <com.random.anim.RandomTextView
         android:id="@+id/tv_anim_1_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.sample.TextRandomView
+    <com.random.anim.RandomEditView
         android:id="@+id/tv_anim_2_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:background="@color/colorPrimary" />
 
     <Button
         android:id="@+id/b_start_id"
