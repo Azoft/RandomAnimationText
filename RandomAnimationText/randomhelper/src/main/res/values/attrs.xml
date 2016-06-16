@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="randomText">
+        <attr name="rules" format="string"/>
+        <attr name="template" format="string"/>
+        <attr name="autoStart" format="boolean"/>
+    </declare-styleable>
+</resources>
