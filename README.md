@@ -2,7 +2,7 @@
 
 ## Examples
 
-![Example](resources/random_anim_text.gif "working example")
+![Example](resources/random_anim_text_small.gif "working example")
 
 #####Types for random animation:
 ```
