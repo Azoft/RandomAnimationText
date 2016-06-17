@@ -1,5 +1,9 @@
 # RandomAnimationText
 
+## Examples
+
+![Example](resources/random_anim_text.gif "working example")
+
 #####Types for random animation:
 ```
 A - alphanumeric;
