@@ -57,7 +57,7 @@ public class RandomEditView extends EditText {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        if (layoutParams.width == ViewGroup.LayoutParams.WRAP_CONTENT) {
+        if (ViewGroup.LayoutParams.WRAP_CONTENT == layoutParams.width) {
             setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
         }
     }
@@ -77,8 +77,21 @@ public class RandomEditView extends EditText {
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
+    public void onRestoreInstanceState(final Parcelable state) {
         super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        mRandomTextHelper.resumeAnimation();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        mRandomTextHelper.pauseAnimation();
+    }
 }

@@ -57,9 +57,24 @@ public class RandomTextView extends TextView {
         setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
     }
 
+    @SuppressWarnings("RefusedBequest")
     @Override
     protected void onDraw(@NonNull final Canvas canvas) {
         mRandomTextHelper.onDraw(canvas);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        mRandomTextHelper.resumeAnimation();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        mRandomTextHelper.pauseAnimation();
     }
 
     @Override
@@ -68,7 +83,7 @@ public class RandomTextView extends TextView {
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
+    public void onRestoreInstanceState(final Parcelable state) {
         super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
     }
 

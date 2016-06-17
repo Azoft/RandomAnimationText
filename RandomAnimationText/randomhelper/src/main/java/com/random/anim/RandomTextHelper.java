@@ -10,7 +10,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -143,7 +142,7 @@ public class RandomTextHelper {
     }
 
     public int getWidthMeasureDrawText() {
-        return mTextView.getPaddingLeft() + (int) mPaint.measureText(mDrawText == null ? "" : mDrawText) + 10 + mTextView.getTotalPaddingRight();
+        return mTextView.getPaddingLeft() + Math.round(mPaint.measureText(null == mDrawText ? "" : mDrawText)) + 10 + mTextView.getTotalPaddingRight();
     }
 
     public int getHeightMeasureDrawText() {
@@ -156,7 +155,7 @@ public class RandomTextHelper {
 
     private int getDrawY() {
         final float half = (mTextView.getMeasuredHeight() - mTextView.getPaddingBottom()) * HALF;
-        return (int) (((half * HALF) + half));
+        return Math.round(half * HALF + half);
     }
 
     public void onDraw(@NonNull final Canvas canvas) {
@@ -181,9 +180,12 @@ public class RandomTextHelper {
 
     public Parcelable onSaveInstanceState(final Parcelable superState) {
         final RandomSavedState savedState = new RandomSavedState(superState);
-        savedState.drawText = this.mDrawText;
-        savedState.isFinish = this.mIsFinish;
-        savedState.delayMillis = this.mDelayMillis;
+        savedState.mDrawText = mDrawText;
+        savedState.mIsFinish = mIsFinish;
+        savedState.mDelayMillis = mDelayMillis;
+
+        mTextView.setEnabled(mIsFinish);
+
         return savedState;
     }
 
@@ -194,41 +196,53 @@ public class RandomTextHelper {
 
         final RandomSavedState savedState = (RandomSavedState) state;
 
-        this.mDrawText = savedState.drawText;
-        this.mIsFinish = savedState.isFinish;
-        this.mDelayMillis = savedState.delayMillis;
+        mDrawText = savedState.mDrawText;
+        mIsFinish = savedState.mIsFinish;
+        mDelayMillis = savedState.mDelayMillis;
         return savedState.getSuperState();
     }
 
-    static class RandomSavedState extends View.BaseSavedState {
-        String drawText;
-        long delayMillis;
-        boolean isFinish;
+    public void resumeAnimation() {
+        mHandler.removeCallbacks(mCharacterChange);
+        mHandler.post(mCharacterChange);
+    }
 
-        RandomSavedState(Parcelable superState) {
+    public void pauseAnimation() {
+        mHandler.removeCallbacks(mCharacterChange);
+    }
+
+    static class RandomSavedState extends View.BaseSavedState {
+
+        private String mDrawText;
+        private long mDelayMillis;
+        private boolean mIsFinish;
+
+        RandomSavedState(final Parcelable superState) {
             super(superState);
         }
 
         private RandomSavedState(final Parcel in) {
             super(in);
-            this.isFinish = in.readInt() == 1;
-            this.delayMillis = in.readLong();
-            this.drawText = in.readString();
+            mIsFinish = 1 == in.readInt();
+            mDelayMillis = in.readLong();
+            mDrawText = in.readString();
         }
 
         @Override
         public void writeToParcel(final Parcel out, final int flags) {
             super.writeToParcel(out, flags);
-            out.writeInt(this.isFinish ? 1 : 0);
-            out.writeLong(this.delayMillis);
-            out.writeString(this.drawText);
+            out.writeInt(mIsFinish ? 1 : 0);
+            out.writeLong(mDelayMillis);
+            out.writeString(mDrawText);
         }
 
         public static final Creator<RandomSavedState> CREATOR = new Creator<RandomSavedState>() {
-            public RandomSavedState createFromParcel(final Parcel in) {
-                return new RandomSavedState(in);
+            @Override
+            public RandomSavedState createFromParcel(final Parcel source) {
+                return new RandomSavedState(source);
             }
 
+            @Override
             public RandomSavedState[] newArray(final int size) {
                 return new RandomSavedState[size];
             }
