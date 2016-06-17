@@ -57,7 +57,7 @@ public class RandomEditView extends EditText {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        if (ViewGroup.LayoutParams.WRAP_CONTENT == layoutParams.width) {
+        if (!mRandomTextHelper.isFinish() && ViewGroup.LayoutParams.WRAP_CONTENT == layoutParams.width) {
             setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
         }
     }
