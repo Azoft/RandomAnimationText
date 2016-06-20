@@ -1,4 +1,4 @@
-package com.random.anim;
+package com.azoft.random;
 
 import android.content.res.TypedArray;
 import android.graphics.Canvas;

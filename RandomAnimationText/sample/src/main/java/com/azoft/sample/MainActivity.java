@@ -1,11 +1,11 @@
-package com.sample;
+package com.azoft.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.random.anim.RandomEditView;
-import com.random.anim.RandomTextView;
+import com.azoft.random.RandomEditView;
+import com.azoft.random.RandomTextView;
 
 public class MainActivity extends Activity {
 

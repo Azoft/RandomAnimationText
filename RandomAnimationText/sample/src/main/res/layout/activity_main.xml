@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <com.random.anim.RandomTextView
+    <com.azoft.random.RandomTextView
         android:id="@+id/tv_anim_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,12 +18,12 @@
         randomText:rules="@string/rules"
         randomText:template="@string/template" />
 
-    <com.random.anim.RandomTextView
+    <com.azoft.random.RandomTextView
         android:id="@+id/tv_anim_1_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.random.anim.RandomEditView
+    <com.azoft.random.RandomEditView
         android:id="@+id/tv_anim_2_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.random.anim;
+package com.azoft.random;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,8 +7,7 @@ import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Date: 22.12.14
@@ -16,15 +15,15 @@ import android.widget.EditText;
  *
  * @author Artem Zalevskiy
  */
-public class RandomEditView extends EditText {
+public class RandomTextView extends TextView {
 
     private final RandomTextHelper mRandomTextHelper = new RandomTextHelper();
 
-    public RandomEditView(final Context context) {
+    public RandomTextView(final Context context) {
         this(context, null);
     }
 
-    public RandomEditView(final Context context, final AttributeSet attrs) {
+    public RandomTextView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.randomText);
@@ -55,30 +54,13 @@ public class RandomEditView extends EditText {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        if (!mRandomTextHelper.isFinish() && ViewGroup.LayoutParams.WRAP_CONTENT == layoutParams.width) {
-            setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
-        }
+        setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
     }
 
+    @SuppressWarnings("RefusedBequest")
     @Override
     protected void onDraw(@NonNull final Canvas canvas) {
-        if (mRandomTextHelper.isFinish()) {
-            super.onDraw(canvas);
-        } else {
-            mRandomTextHelper.onDraw(canvas);
-        }
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        return mRandomTextHelper.onSaveInstanceState(super.onSaveInstanceState());
-    }
-
-    @Override
-    public void onRestoreInstanceState(final Parcelable state) {
-        super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
+        mRandomTextHelper.onDraw(canvas);
     }
 
     @Override
@@ -94,4 +76,15 @@ public class RandomEditView extends EditText {
 
         mRandomTextHelper.pauseAnimation();
     }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return mRandomTextHelper.onSaveInstanceState(super.onSaveInstanceState());
+    }
+
+    @Override
+    public void onRestoreInstanceState(final Parcelable state) {
+        super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.random.anim;
+package com.azoft.random;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,8 @@ import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * Date: 22.12.14
@@ -15,15 +16,15 @@ import android.widget.TextView;
  *
  * @author Artem Zalevskiy
  */
-public class RandomTextView extends TextView {
+public class RandomEditView extends EditText {
 
     private final RandomTextHelper mRandomTextHelper = new RandomTextHelper();
 
-    public RandomTextView(final Context context) {
+    public RandomEditView(final Context context) {
         this(context, null);
     }
 
-    public RandomTextView(final Context context, final AttributeSet attrs) {
+    public RandomEditView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.randomText);
@@ -54,13 +55,30 @@ public class RandomTextView extends TextView {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
+
+        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (!mRandomTextHelper.isFinish() && ViewGroup.LayoutParams.WRAP_CONTENT == layoutParams.width) {
+            setMeasuredDimension(mRandomTextHelper.getWidthMeasureDrawText(), mRandomTextHelper.getHeightMeasureDrawText());
+        }
     }
 
-    @SuppressWarnings("RefusedBequest")
     @Override
     protected void onDraw(@NonNull final Canvas canvas) {
-        mRandomTextHelper.onDraw(canvas);
+        if (mRandomTextHelper.isFinish()) {
+            super.onDraw(canvas);
+        } else {
+            mRandomTextHelper.onDraw(canvas);
+        }
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return mRandomTextHelper.onSaveInstanceState(super.onSaveInstanceState());
+    }
+
+    @Override
+    public void onRestoreInstanceState(final Parcelable state) {
+        super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
     }
 
     @Override
@@ -76,15 +94,4 @@ public class RandomTextView extends TextView {
 
         mRandomTextHelper.pauseAnimation();
     }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        return mRandomTextHelper.onSaveInstanceState(super.onSaveInstanceState());
-    }
-
-    @Override
-    public void onRestoreInstanceState(final Parcelable state) {
-        super.onRestoreInstanceState(mRandomTextHelper.onRestoreInstanceState(state));
-    }
-
 }

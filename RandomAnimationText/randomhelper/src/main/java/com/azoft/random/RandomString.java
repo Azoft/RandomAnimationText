@@ -1,4 +1,4 @@
-package com.random.anim;
+package com.azoft.random;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
