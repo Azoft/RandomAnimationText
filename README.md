@@ -25,7 +25,7 @@ Example: n2:A3:a10
 <string name="template" formatted="false">Date: %s / %s</string>
 
 In xml:
-<com.random.anim.RandomTextView
+<com.azoft.random.RandomTextView
   ...
   randomText:autoStart="true"
   randomText:rules="@string/rules"
